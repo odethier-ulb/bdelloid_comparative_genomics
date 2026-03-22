@@ -24,6 +24,18 @@ GRAPH_LABELS_TE = GRAPH_LABELS.copy()
 del GRAPH_LABELS_TE['Unknown']
 del GRAPH_LABELS_TE['Other']
 
+NAME_MAP.update({
+    'DNA/Academ-1': 'DNA/Academ',
+    'DNA/hAT-hATm': 'DNA/hAT',
+    'DNA/Kolobok-E': 'DNA/Kolobok',
+    'DNA/Kolobok-T2?': 'DNA/Kolobok',
+    'DNA/PiggyBac-PB': 'DNA/PiggyBac',
+    'DNA/PiggyBac-Pokey': 'DNA/PiggyBac',
+    'DNA/Sola-1': 'DNA/Sola',
+    'DNA/Sola-2': 'DNA/Sola',
+})
+
+
 GRAPH_LABELS.update({
     'Satellite': '#7f7f7f',
     'Simple_repeat': '#999999',
@@ -76,10 +88,19 @@ def parse_rm2b(fpath: str, chr_size: dict) -> tuple:
                 if not assigned[i]:
                     length += 1
                     assigned[i] = True
-            if row['class'] in TE_REPEATS:
-                summary_te[row['class']] = summary_te.get(row['class'], 0) + length
+            # Retrieve all repetitive elements
             if row['class'] in RE_TYPES:
                 summary_re[row['class']] = summary_re.get(row['class'], 0) + length
+            # Retrieve known TE repeat only
+            if row['class'] in TE_REPEATS:
+                class_family = f"{row['class']}/{row['family']}"
+                if class_family in GRAPH_LABELS_TE:
+                    label = class_family
+                elif class_family in NAME_MAP:
+                    label = NAME_MAP[class_family]
+                else:
+                    label = row['class']
+                summary_te[label] = summary_te.get(label, 0) + length
             
     # Compute percentage for repetitive elements
     genome_size = sum(chr_size.values())
@@ -146,7 +167,7 @@ def plot_te_proportion(sp_details_files: list, rm2b_files: list, fai_files: list
         ax2.barh(samples, te_data[:, i], left=left, 
                 color=GRAPH_LABELS[repeat_type], edgecolor='none')
         left += te_data[:, i]
-
+        
     ax2.set_xlabel('Relative proportion of total TEs (%)', fontsize=12)
     ax2.set_xlim(0, 100)
     ax2.set_yticklabels([])
