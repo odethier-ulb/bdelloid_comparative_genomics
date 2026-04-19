@@ -1,0 +1,34 @@
+{
+	"scientific_name": "Adineta ricciae",
+	"short_name": "a_ricciae",
+	"accronym": "ar",
+	"taxid": 249248,
+	"class": "Bdelloidea",
+	"assembly_level": "chromosome",
+	"assembly_size": 104891906,
+	"scaffolds": 6,
+	"origin": "Alexandros",
+	"chr_list": [
+		"Scaffold_3",
+		"Scaffold_1",
+		"Scaffold_5",
+		"Scaffold_2",
+		"Scaffold_4",
+		"Scaffold_6"
+	],
+	"circos_order": [
+		"Scaffold_3",
+		"Scaffold_1",
+		"Scaffold_4",
+		"Scaffold_5",
+		"Scaffold_2",
+		"Scaffold_6"
+	],
+	"to_reverse": [
+		"Scaffold_1",
+		"Scaffold_2",
+		"Scaffold_4",
+		"Scaffold_5",
+		"Scaffold_6"
+	]
+}
