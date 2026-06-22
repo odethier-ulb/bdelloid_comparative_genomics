@@ -1,6 +1,7 @@
 import re
 import sys
 import json
+import argparse
 import pandas as pd
 from pycirclize import Circos
 
@@ -72,8 +73,9 @@ def __get_re_density(te_bed, chr, chr_size):
             chr_mask[i] = True
             
     # Convert to percentage
-    y_te = [i / WINDOW_SIZE * 100 for i in y_te]
-    y_re = [i / WINDOW_SIZE * 100 for i in y_re]
+    w_sizes = [min(WINDOW_SIZE, chr_size - x[i]) for i in range(len(x))]
+    y_te = [count / ws * 100 for count, ws in zip(y_te, w_sizes)]
+    y_re = [count / ws * 100 for count, ws in zip(y_re, w_sizes)]
     
     # Arrange values for plotting
     x_final, y_te_final, y_re_final = [], [], []
@@ -112,7 +114,8 @@ def __get_gene_density(mcscanx_gff, chr, chr_size, htgs, hgt_only=False):
             y[min(i // WINDOW_SIZE, len(y) - 1)] += 1
                       
     # Convert to percentage
-    y = [i / WINDOW_SIZE * 100 for i in y]
+    w_sizes = [min(WINDOW_SIZE, chr_size - x[i]) for i in range(len(x))]
+    y = [count / ws * 100 for count, ws in zip(y, w_sizes)]
     
     # Arrange values for plotting
     x_final, y_final = [], []
