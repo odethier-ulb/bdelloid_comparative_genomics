@@ -140,9 +140,7 @@ def main(input_dir, output_dir, max_gap=0, freq_max=1.0):
         total_proportion_on_chrom_df = pd.concat([total_proportion_on_chrom_df, total_proportion_series], axis=1)
         mixing_on_chrom_df = pd.concat([mixing_on_chrom_df, mixing_series], axis=1)
 
-    # Suffix outputs with the gap tolerance and frequency threshold used, so
-    # sweeping over several parameter combinations doesn't overwrite previous
-    # runs.
+    # Output files suffix
     suffix = f"_gap{max_gap}_freq{freq_max}"
 
     # Save the rearrangement index to a table format
