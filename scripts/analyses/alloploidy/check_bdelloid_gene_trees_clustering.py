@@ -116,14 +116,9 @@ def check_subgenome_clustering(trees_file, out_file):
     Check if bdelloid genes cluster by subgenome in the given MUL trees.
 
     For each tree with a resolvable balanced split, runs a per-tree Fisher's
-    exact test on the 2x2 table [[sg1_left, sg1_right], [sg2_left, sg2_right]]
-    -- this is valid regardless of whether "left"/"right" means the same
-    thing from tree to tree, since it tests association between side and
-    subgenome within that tree only, not direction. Results are written to
-    out_file, and an aggregate p-value across all trees is computed with
-    Fisher's method for combining independent p-values (also orientation-
-    agnostic -- does not require left/right to be consistently oriented
-    across trees, unlike simply summing raw counts would).
+    exact test on the 2x2 table [[sg1_left, sg1_right], [sg2_left, sg2_right]].
+    Results are written to out_file, and an aggregate p-value across all trees 
+    is computed with Fisher's method for combining independent p-values.
     """
     trees, tot_trees, valid_trees = Phylo.parse(trees_file, 'newick'), 0, 0
     rows, p_values = [], []
